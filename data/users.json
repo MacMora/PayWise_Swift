@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Juan Pérez",
+    "phone": "8689990000",
+    "usdb": 710.0,
+    "ttd": 10.0,
+    "transactions": [
+      
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Maria García",
+    "phone": "8681234567",
+    "usdb": 500.0,
+    "ttd": 20.0,
+    "transactions": []
+  }
+]
