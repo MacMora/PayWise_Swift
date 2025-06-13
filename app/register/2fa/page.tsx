@@ -35,7 +35,7 @@ const Register2FA: React.FC = () => {
             placeholder="Description"
             InputLabelProps={{ shrink: true }}
           />
-          <button type="submit" className="button-primary w-full mt-6">Continue</button>
+          <button type="submit" className="cursor-pointer button-primary w-full mt-6">Continue</button>
         </form>
       </div>
     </div>

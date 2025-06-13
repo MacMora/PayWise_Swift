@@ -20,13 +20,13 @@ const NotRegisteredModal: React.FC<NotRegisteredModalProps> = ({ phone, onChange
       <div className="text-base md:text-lg font-semibold mb-6">{phone}</div>
       <div className="flex flex-col sm:flex-row w-full">
         <button 
-          className="flex-1 px-4 py-2 bg-transparent underline text-[#1E64A7] font-bold"
+          className="cursor-pointer flex-1 px-4 py-2 bg-transparent underline text-[#1E64A7] font-bold"
           onClick={onChange}
         >
           Change
         </button>
         <button 
-          className="flex-1 px-4 py-2 bg-[#1E64A7] font-bold text-white rounded-full hover:bg-blue-700 transition-colors"
+          className="cursor-pointer flex-1 px-4 py-2 bg-[#1E64A7] font-bold text-white rounded-full hover:bg-blue-700 transition-colors"
           onClick={onSignup}
         >
           Sign Up to PayWise

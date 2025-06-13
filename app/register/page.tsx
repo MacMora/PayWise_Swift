@@ -31,7 +31,7 @@ const RegisterPage: React.FC = () => {
           <button type="submit" className="button-primary w-full">Continue</button>
         </form>
         <p className="mt-4 text-sm text-[#22314f]">Already have an account?{' '}
-          <button className="text-[#1e5fa6] underline" style={{background:'none',border:'none'}} onClick={() => router.push('/login')}>Log In</button>
+          <button className="cursor-pointer text-[#1e5fa6] underline" style={{background:'none',border:'none'}} onClick={() => router.push('/login')}>Log In</button>
         </p>
       </div>
       {showModal && (

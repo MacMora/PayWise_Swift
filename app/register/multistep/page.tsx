@@ -63,7 +63,7 @@ const MultistepRegister: React.FC = () => {
             <React.Fragment key={label}>
               <button
                 type="button"
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-colors duration-200
+                className={`cursor-pointer w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-colors duration-200
                   ${idx === step ? "bg-green-500 border-green-500 text-white" : idx < step ? "bg-green-400 border-green-400 text-white" : "bg-gray-200 border-gray-300 text-gray-400"}
                 `}
                 onClick={() => goToStep(idx)}
