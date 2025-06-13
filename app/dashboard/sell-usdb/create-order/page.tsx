@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { IoCloseOutline } from "react-icons/io5";
 import Image from "next/image";
 
-export default function CreateOrder_Buy() {
+export default function CreateOrder_Sell() {
 
   const [showOrderConfirmModal, setShowOrderConfirmModal] = useState(false);
   const [showOrderSuccessModal, setShowOrderSuccessModal] = useState(false);
@@ -49,7 +49,7 @@ export default function CreateOrder_Buy() {
 
   const handleCloseSuccess = () => {
     setShowOrderSuccessModal(false);
-    router.push("/dashboard/buy-usdb");
+    router.push("/dashboard/sell-usdb");
   };
 
   const handleCloseInsufficientFunds = () => {
@@ -63,7 +63,7 @@ export default function CreateOrder_Buy() {
         <div className="bg-white rounded-xl p-8 w-[300px] md:w-[450px] shadow-lg text-center">
           <h2 className="text-xl font-bold mb-4">Order Confirmation</h2>
           <div className="mb-4">
-            <div>Buying: -- USDB</div>
+            <div>Selling: -- USDB</div>
             <div>At Rate: --</div>
             <div>Fee: 1%</div>
             <div>Total Cost: -- TTD</div>
@@ -111,7 +111,7 @@ export default function CreateOrder_Buy() {
             purchase or fund your account.
           </div>
           <div className="flex gap-2 justify-center">
-            <Link href="/dashboard/buy-usdb/fund-escrow">
+            <Link href="/dashboard/sell-usdb/fund-escrow">
               <Button className="bg-[#1E64A7] text-white px-8">
                 FUND ESCROW
               </Button>
@@ -131,7 +131,7 @@ export default function CreateOrder_Buy() {
       <div className="space-y-6">
         {/* Page Header */}
         <div className="flex items-center justify-between">
-          <h1 className="font-bold text-[#1E64A7]">Create Buy USDB Order</h1>
+          <h1 className="font-bold text-[#1E64A7]">Create Sell USDB Order</h1>
         </div>
 
         {/* Order Card */}
@@ -143,11 +143,11 @@ export default function CreateOrder_Buy() {
             {/* Order Form */}
             <form onSubmit={handleFormSubmit} className="flex flex-col justify-between items-start p-2 space-y-4">
               <div className="w-full">
-                <Label htmlFor="ttd_amount" className="text-sm font-medium">
-                  <span className="text-[#FF3A67]">*</span>Enter TTD Amount
+                <Label htmlFor="usdb_amount" className="text-sm font-medium">
+                  <span className="text-[#FF3A67]">*</span>*Enter USDB Amount
                 </Label>
                 <Input
-                  name="ttd_amount"
+                  name="usdb_amount"
                   placeholder="$780"
                   className="mt-1 w-full"
                 />
@@ -160,13 +160,13 @@ export default function CreateOrder_Buy() {
               </div>
               <div className="w-full">
                 <Label
-                  htmlFor="equivalent_in_usd"
+                  htmlFor="equivalent_in_ttd"
                   className="text-sm font-medium"
                 >
-                  <span className="text-[#FF3A67]">*</span>Equivalent in USD
+                  <span className="text-[#FF3A67]">*</span>Equivalent in TTD
                 </Label>
                 <Input
-                  name="equivalent_in_usd"
+                  name="equivalent_in_ttd"
                   placeholder="$100"
                   className="mt-1 w-full"
                 />
@@ -176,8 +176,7 @@ export default function CreateOrder_Buy() {
                   htmlFor="partial_purchase"
                   className="text-sm font-medium"
                 >
-                  <span className="text-[#FF3A67]">*</span>Allow Partial
-                  Purchase?
+                  <span className="text-[#FF3A67]">*</span>Allow Partial Purchase?
                 </Label>
                 <Select name="partial_purchase">
                   <SelectTrigger className="mt-1 w-full">
@@ -191,20 +190,20 @@ export default function CreateOrder_Buy() {
               </div>
               <div className="w-full">
                 <Label
-                  htmlFor="minimum_amount_to_buy"
+                  htmlFor="minimum_amount_to_sell"
                   className="text-sm font-medium"
                 >
                   <span className="text-[#FF3A67]">*</span>Minimum Amount that
-                  can be Bought (TTD)
+                  can be Sold (USDB)
                 </Label>
                 <Input
-                  name="minimum_amount_to_buy"
+                  name="minimum_amount_to_sell"
                   placeholder="0"
                   className="mt-1 w-full"
                 />
               </div>
               <div className="flex space-x-3">
-                <Link href="/dashboard/buy-usdb">
+                <Link href="/dashboard/sell-usdb">
                   <Button className="cursor-pointer bg-transparent hover:bg-transparent border border-[#536374] text-[#536374]">
                     Cancel
                   </Button>

@@ -1,11 +1,48 @@
+"use client";
+
 import DashboardLayout from "@/components/DashboardLayout";
-import { Copy } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { CiBank } from "react-icons/ci";
 import { BsInfoCircle } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+
+const accountDetails = [
+  { label: "Bank name", value: "Citibank" },
+  { label: "Bank address", value: "111 Wall Street New York, NY 10043 USA" },
+  { label: "Routing (ABA)", value: "123456789O" },
+  { label: "Beneficiary name", value: "COMPANY NAME LTD." },
+  { label: "SWIFT code", value: "CITIUS33" },
+  { label: "Account number", value: "123456789O234567" },
+  { label: "Account type", value: "CHECKING", fullWidth: true },
+];
 
 export default function WireFundsIn() {
+  const [copiedMap, setCopiedMap] = useState<{ [key: number]: boolean }>({});
+  const [copiedAll, setCopiedAll] = useState(false);
+
+  const copyToClipboard = (text: string, index?: number) => {
+    navigator.clipboard.writeText(text).then(() => {
+      if (index !== undefined) {
+        setCopiedMap((prev) => ({ ...prev, [index]: true }));
+        setTimeout(() => {
+          setCopiedMap((prev) => ({ ...prev, [index]: false }));
+        }, 2000);
+      } else {
+        setCopiedAll(true);
+        setTimeout(() => setCopiedAll(false), 2000);
+      }
+    });
+  };
+
+  const copyAllDetails = () => {
+    const allText = accountDetails
+      .map((item) => `${item.label}: ${item.value}`)
+      .join("\n");
+    copyToClipboard(allText);
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-10">
@@ -33,78 +70,58 @@ export default function WireFundsIn() {
             <CardTitle className="text-sm">Wire In Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm font-medium text-[#000000] ">
-                    Bank name
-                  </p>
-                  <p className="text-[#000000C7]">Citibank</p>
+            <div className="flex flex-col md:grid md:grid-cols-2 gap-y-4 text-sm">
+              {accountDetails.map((item, index) => (
+                <div key={index} className={item.fullWidth ? "col-span-2" : ""}>
+                  <p className="text-gray-600">{item.label}</p>
+                  <div className="flex items-center justify-start">
+                    <p className="font-medium">{item.value}</p>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(item.value, index)}
+                      className="text-gray-500 hover:text-[#6FA43A] ml-2 cursor-pointer"
+                      aria-label={`Copy ${item.label}`}
+                    >
+                      {copiedMap[index] ? (
+                        <Check className="w-4 h-4 text-green-600" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    Routing (ABA)
-                  </p>
-                  <p className="text-[#000000C7]">123456789O</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    SWIFT code
-                  </p>
-                  <p className="text-[#000000C7]">CITIUS33</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    Account number
-                  </p>
-                  <p className="text-[#000000C7]">123456789O234567</p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    Account type
-                  </p>
-                  <p className="text-[#000000C7]">CHECKING</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    Bank address
-                  </p>
-                  <p className="text-[#000000C7]">
-                    111 Wall Street New York, NY 10043 USA
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#000000]">
-                    Beneficiary name
-                  </p>
-                  <p className="text-[#000000C7]">COMPANY NAME LTD.</p>
-                </div>
-              </div>
+              ))}
+            </div>
+            <div className="flex md:justify-end md:-mt-4 w-full">
+              <Button
+                className="cursor-pointer bg-[#6FA43A] hover:bg-[#6FA43A]"
+                onClick={copyAllDetails}
+              >
+                {copiedAll ? (
+                  <Check className="w-4 h-4 mr-2 text-white" />
+                ) : (
+                  <Copy className="w-4 h-4 mr-2" />
+                )}
+                Copy Details
+              </Button>
             </div>
 
-            <Button className="bg-[#6FA43A] hover:bg-[#6FA43A]">
-              Copy Details
-              <Copy className="w-4 h-4 mr-2" />
-            </Button>
-
             {/* Information Notice */}
-          <Card className="md:w-3/4 border-[#4E9FFF1F] mb-6">
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-3">
-                <BsInfoCircle className="h-5 w-5 text-[#64778A] mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-black">
-                  <p className="italic">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
-                  </p>
+            <Card className="md:w-3/4 border-[#4E9FFF1F] mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-center space-x-3">
+                  <BsInfoCircle className="h-5 w-5 text-[#64778A] mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-black">
+                    <p className="italic">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud
+                      exercitation.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
       </div>

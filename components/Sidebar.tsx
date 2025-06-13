@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { X } from "lucide-react"
 import {
   Home,
   ArrowDownToLine,
@@ -30,14 +31,26 @@ const bottomNavigation = [
   { name: "Chat with PayWise", href: "/chat", icon: MessageCircle },
 ]
 
-export function Sidebar() {
+interface SidebarProps {
+  onClose?: () => void;
+}
+
+export function Sidebar({ onClose }: SidebarProps) {
   const pathname = usePathname()
 
   return (
     <div className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
-      {/* Logo */}
-      <div className="p-6">
+      {/* Logo and close button */}
+      <div className="p-6 flex items-center justify-between">
         <img src="/logo_swift.png" alt="PayWise Swift" className="w-32" />
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-full"
+          >
+            <X className="h-6 w-6 text-gray-500" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
@@ -48,6 +61,7 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={onClose}
               className={cn(
                 "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive
@@ -75,6 +89,7 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={onClose}
               className={cn(
                 "group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive ? "bg-blue-50 text-blue-700" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900",

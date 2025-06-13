@@ -4,7 +4,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { CiBank } from "react-icons/ci";
 import { IoWalletOutline } from "react-icons/io5";
 import { useState } from "react";
-import { Copy } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -28,9 +28,20 @@ import { useAuth } from "@/components/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const accountDetails = [
+  { label: "Bank name", value: "Citibank" },
+  { label: "Bank address", value: "111 Wall Street New York, NY 10043 USA" },
+  { label: "Routing (ABA)", value: "123456789O" },
+  { label: "Beneficiary name", value: "COMPANY NAME LTD." },
+  { label: "SWIFT code", value: "CITIUS33" },
+  { label: "Account number", value: "123456789O234567" },
+  { label: "Account type", value: "CHECKING", fullWidth: true },
+];
+
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
-
+  const [copiedMap, setCopiedMap] = useState<{ [key: number]: boolean }>({});
+  const [copiedAll, setCopiedAll] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -81,6 +92,27 @@ const Dashboard: React.FC = () => {
       ? "/dashboard/buy-usdb/buy"
       : "/dashboard/sell-usdb/sell";
 
+  const copyToClipboard = (text: string, index?: number) => {
+    navigator.clipboard.writeText(text).then(() => {
+      if (index !== undefined) {
+        setCopiedMap((prev) => ({ ...prev, [index]: true }));
+        setTimeout(() => {
+          setCopiedMap((prev) => ({ ...prev, [index]: false }));
+        }, 2000);
+      } else {
+        setCopiedAll(true);
+        setTimeout(() => setCopiedAll(false), 2000);
+      }
+    });
+  };
+
+  const copyAllDetails = () => {
+    const allText = accountDetails
+      .map((item) => `${item.label}: ${item.value}`)
+      .join("\n");
+    copyToClipboard(allText);
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-10">
@@ -92,8 +124,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Account Balances */}
-        <div className="flex flex-row gap-6">
-          <Card className="px-2 py-[10px] rounded-md w-[350px] shadow-[#4E9FFF1F]">
+        <div className="flex flex-col md:flex-row gap-6">
+          <Card className="px-2 py-[10px] rounded-md md:w-[350px] shadow-[#4E9FFF1F]">
             <CardContent className="px-2">
               <div className="flex items-center space-x-3">
                 <CiBank className="h-10 w-10 text-[#353E5C]" />
@@ -107,7 +139,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="px-2 py-[10px] rounded-md w-[350px] shadow-[#4E9FFF1F]">
+          <Card className="px-2 py-[10px] rounded-md md:w-[350px] shadow-[#4E9FFF1F]">
             <CardContent className="px-2">
               <div className="flex items-center space-x-3">
                 <IoWalletOutline className="h-8 w-8 text-[#353E5C]" />
@@ -204,41 +236,41 @@ const Dashboard: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 flex-grow flex flex-col justify-between">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="text-gray-600">Bank name</p>
-                    <p className="font-medium">Citibank</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Bank address</p>
-                    <p className="font-medium">
-                      111 Wall Street New York, NY 10043 USA
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Routing (ABA)</p>
-                    <p className="font-medium">123456789O</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Beneficiary name</p>
-                    <p className="font-medium">COMPANY NAME LTD.</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">SWIFT code</p>
-                    <p className="font-medium">CITIUS33</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Account number</p>
-                    <p className="font-medium">123456789O234567</p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-gray-600">Account type</p>
-                    <p className="font-medium">CHECKING</p>
-                  </div>
+                <div className="grid grid-cols-2 gap-y-4 text-sm">
+                  {accountDetails.map((item, index) => (
+                    <div
+                      key={index}
+                      className={item.fullWidth ? "col-span-2" : ""}
+                    >
+                      <p className="text-gray-600">{item.label}</p>
+                      <div className="flex items-center justify-start">
+                        <p className="font-medium">{item.value}</p>
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard(item.value, index)}
+                          className="text-gray-500 hover:text-[#6FA43A] ml-2 cursor-pointer"
+                          aria-label={`Copy ${item.label}`}
+                        >
+                          {copiedMap[index] ? (
+                            <Check className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <Copy className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="place-self-end -mt-4">
-                  <Button className="w-full bg-[#6FA43A] hover:bg-[#6FA43A]">
-                    <Copy className="w-4 h-4 mr-2" />
+                <div className="flex justify-end -mt-4 w-full">
+                  <Button
+                    className="cursor-pointer bg-[#6FA43A] hover:bg-[#6FA43A]"
+                    onClick={copyAllDetails}
+                  >
+                    {copiedAll ? (
+                      <Check className="w-4 h-4 mr-2 text-white" />
+                    ) : (
+                      <Copy className="w-4 h-4 mr-2" />
+                    )}
                     Copy Details
                   </Button>
                 </div>
@@ -253,23 +285,36 @@ const Dashboard: React.FC = () => {
             <CardTitle>Transactions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center space-x-4 mb-4">
-              <Select defaultValue="10">
-                <SelectTrigger className="w-20">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="25">25</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                </SelectContent>
-              </Select>
-              <Input placeholder="Search..." className="max-w-sm" />
-              <div className="flex space-x-2 ml-auto">
-                <Input type="date" defaultValue="2025-02-15" className="w-40" />
-                <Input type="date" defaultValue="2025-02-18" className="w-40" />
+            {/* Filtros */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 space-y-4 lg:space-y-0 mb-4">
+              <div className="flex space-x-2">
+                <Select defaultValue="10">
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="25">25</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input placeholder="Search..." className="max-w-xs w-full" />
+              </div>
+
+              {/* Filtros adicionales */}
+              <div className="flex flex-wrap gap-2 lg:ml-auto">
+                <Input
+                  type="date"
+                  defaultValue="2025-02-15"
+                  className="w-full md:w-36"
+                />
+                <Input
+                  type="date"
+                  defaultValue="2025-02-18"
+                  className="w-full md:w-36"
+                />
                 <Select defaultValue="all-users">
-                  <SelectTrigger className="w-32">
+                  <SelectTrigger className="w-full md:w-32">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -277,7 +322,7 @@ const Dashboard: React.FC = () => {
                   </SelectContent>
                 </Select>
                 <Select defaultValue="all-transactions">
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-full md:w-40">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -289,57 +334,60 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Time</TableHead>
-                  <TableHead>Transaction ID</TableHead>
-                  <TableHead>Transaction Type</TableHead>
-                  <TableHead>Sender</TableHead>
-                  <TableHead>Sender Phone</TableHead>
-                  <TableHead>Transaction Amount</TableHead>
-                  <TableHead>Total Fee</TableHead>
-                  <TableHead>Amount Credited</TableHead>
-                  <TableHead>Receiver Name</TableHead>
-                  <TableHead>Receiver Phone</TableHead>
-                  <TableHead>Payout</TableHead>
-                  <TableHead>Message</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>10/10/2024</TableCell>
-                  <TableCell>01:47</TableCell>
-                  <TableCell>3YQCO1</TableCell>
-                  <TableCell>Request Transfer</TableCell>
-                  <TableCell>J Mays and Sons</TableCell>
-                  <TableCell>18686110000</TableCell>
-                  <TableCell>100.00</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>Ian Alleyne</TableCell>
-                  <TableCell>18687238394</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>test payment</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>07/10/2024</TableCell>
-                  <TableCell>06:42</TableCell>
-                  <TableCell>9KGJGF</TableCell>
-                  <TableCell>Request Transfer</TableCell>
-                  <TableCell>J Mays and Sons</TableCell>
-                  <TableCell>18686110000</TableCell>
-                  <TableCell>100.00</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>Ian Alleyne</TableCell>
-                  <TableCell>18687238394</TableCell>
-                  <TableCell>0.00</TableCell>
-                  <TableCell>test payment</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            {/* Tabla responsive */}
+            <div className="w-full overflow-auto">
+              <Table className="min-w-[1000px]">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                    <TableHead>Transaction ID</TableHead>
+                    <TableHead>Transaction Type</TableHead>
+                    <TableHead>Sender</TableHead>
+                    <TableHead>Sender Phone</TableHead>
+                    <TableHead>Transaction Amount</TableHead>
+                    <TableHead>Total Fee</TableHead>
+                    <TableHead>Amount Credited</TableHead>
+                    <TableHead>Receiver Name</TableHead>
+                    <TableHead>Receiver Phone</TableHead>
+                    <TableHead>Payout</TableHead>
+                    <TableHead>Message</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>10/10/2024</TableCell>
+                    <TableCell>01:47</TableCell>
+                    <TableCell>3YQCO1</TableCell>
+                    <TableCell>Request Transfer</TableCell>
+                    <TableCell>J Mays and Sons</TableCell>
+                    <TableCell>18686110000</TableCell>
+                    <TableCell>100.00</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>Ian Alleyne</TableCell>
+                    <TableCell>18687238394</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>test payment</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>07/10/2024</TableCell>
+                    <TableCell>06:42</TableCell>
+                    <TableCell>9KGJGF</TableCell>
+                    <TableCell>Request Transfer</TableCell>
+                    <TableCell>J Mays and Sons</TableCell>
+                    <TableCell>18686110000</TableCell>
+                    <TableCell>100.00</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>Ian Alleyne</TableCell>
+                    <TableCell>18687238394</TableCell>
+                    <TableCell>0.00</TableCell>
+                    <TableCell>test payment</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

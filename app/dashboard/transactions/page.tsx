@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
@@ -16,9 +16,9 @@ export default function Transactions() {
       {/* Filters and Controls */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-center space-x-4 mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-4 space-y-4 lg:space-y-0 mb-4">
             <Select defaultValue="10">
-              <SelectTrigger className="w-20">
+              <SelectTrigger className="w-full md:w-20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -27,12 +27,12 @@ export default function Transactions() {
                 <SelectItem value="50">50</SelectItem>
               </SelectContent>
             </Select>
-            <Input placeholder="Search..." className="max-w-sm" />
-            <div className="flex space-x-2 ml-auto">
-              <Input type="date" defaultValue="2025-02-15" className="w-40" />
-              <Input type="date" defaultValue="2025-02-18" className="w-40" />
+            <Input placeholder="Search..." className="w-full md:max-w-sm" />
+            <div className="flex flex-wrap space-x-2 md:ml-auto max-md:space-y-2">
+              <Input type="date" defaultValue="2025-02-15" className="w-full md:w-40" />
+              <Input type="date" defaultValue="2025-02-18" className="w-full md:w-40" />
               <Select defaultValue="all-users">
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-full md:w-32">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -40,7 +40,7 @@ export default function Transactions() {
                 </SelectContent>
               </Select>
               <Select defaultValue="all-transactions">
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full md:w-40">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -175,12 +175,13 @@ export default function Transactions() {
             </div>
           </div>
         </CardContent>
+        <CardFooter>
+          {/* Download Button */}
+          <div className="flex justify-center w-full pb-6">
+            <Button className="cursor-pointer bg-[#6FA43A] hover:bg-green-700">Download Transaction Report</Button>
+          </div>
+        </CardFooter>
       </Card>
-
-      {/* Download Button */}
-      <div className="flex justify-center">
-        <Button className="bg-green-600 hover:bg-green-700">Download Transaction Report</Button>
-      </div>
     </DashboardLayout>
   )
 }

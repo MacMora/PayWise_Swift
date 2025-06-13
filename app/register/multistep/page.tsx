@@ -56,6 +56,7 @@ const MultistepRegister: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#f8fbff]">
       <div className="bg-white rounded-xl shadow-lg p-10 w-full max-w-md flex flex-col items-center">
+      <h2 className="text-2xl font-bold mb-8 text-[#22314f] text-center">We need some<br />additional information</h2>
         {/* Barra de progreso */}
         <div className="flex items-center justify-center mb-8 w-full">
           {steps.map((label, idx) => (
@@ -78,7 +79,6 @@ const MultistepRegister: React.FC = () => {
             </React.Fragment>
           ))}
         </div>
-        <h2 className="text-2xl font-bold mb-6 text-[#22314f] text-center">We need some<br />additional information</h2>
         <form className="w-full" onSubmit={handleNext}>
           {step === 0 && (
             <>

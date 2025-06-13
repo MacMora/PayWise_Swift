@@ -15,8 +15,8 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#f8fbff]">
+      <img src="/logo_swift.png" alt="PayWise Swift" style={{ width: 120, marginBottom: 24 }} />
       <div className="bg-white rounded-xl shadow-lg p-10 w-full max-w-md flex flex-col items-center">
-        <img src="/logo_swift.png" alt="PayWise Swift" style={{ width: 120, marginBottom: 24 }} />
         <h2 className="text-2xl font-bold mb-2 text-[#22314f]">Let&apos;s Begin!</h2>
         <p className="mb-4 text-[#22314f]">Enter your PayWise phone number</p>
         <form className="w-full" onSubmit={handleContinue}>

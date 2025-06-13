@@ -28,11 +28,11 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="responsive-container min-h-screen">
-      <div className="flex-1 hidden md:flex">
+      <div className="md:flex-1 hidden lg:flex">
         <LogoWelcome />
       </div>
-      <div className="flex-1 flex items-center justify-center bg-white">
-        <form className="w-full max-w-sm" onSubmit={handleLogin}>
+      <div className="max-md:p-10 flex-1 flex md:items-center md:justify-center bg-white">
+        <form className="w-full max-w-sm flex flex-col max-md:justify-center max-md:items-center" onSubmit={handleLogin}>
           <h2 className="text-2xl font-bold mb-6 text-[#22314f]">Login</h2>
           {error && (
             <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">

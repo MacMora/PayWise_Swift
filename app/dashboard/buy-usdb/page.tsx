@@ -65,7 +65,7 @@ export default function BuyUSDB() {
           {isMyOrders ? "My Orders" : "Active Orders"}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 md:w-[45%] mb-6">
+      <CardContent className="space-y-4 lg:w-[45%] mb-6">
         {orders.map((order: Order) => (
           <div
             key={order.id}
@@ -116,7 +116,7 @@ export default function BuyUSDB() {
     if (!showDeleteOrderModal) return null;
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#D9D9D9B2] bg-opacity-30">
-        <div className="bg-white rounded-xl p-8 w-[400px] shadow-lg text-center">
+        <div className="bg-white rounded-xl p-8 w-[300px] md:w-[400px] shadow-lg text-center">
           <h2 className="text-xl font-bold mb-4">Delete order</h2>
           <div className="mb-4">
             <p>Are you sure you want to delete this order?</p>
@@ -138,7 +138,7 @@ export default function BuyUSDB() {
     if (!showDeleteOrderSuccessModal) return null;
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#D9D9D9B2] bg-opacity-30">
-        <div className="bg-white rounded-xl p-4 w-[400px] shadow-lg text-center relative">
+        <div className="bg-white rounded-xl p-4 w-[300px] md:w-[400px] shadow-lg text-center relative">
           <IoCloseOutline className="justify-self-end h-6 w-6 cursor-pointer" onClick={handleCloseSuccess} />
           <Image src="/images/check-circle.png" alt="check-circle" width={110} height={110} className="my-4 mx-auto" />
           <h2 className="text-[#6FA43A] text-xl font-bold pb-6">Order Deleted</h2>
@@ -154,9 +154,9 @@ export default function BuyUSDB() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
+        <div className="md:flex items-center justify-between">
           <h1 className="font-bold text-[#1E64A7]">Buy USDB</h1>
-          <div className="flex space-x-3">
+          <div className="grid grid-cols-2 md:flex space-x-3">
             <Button
               className="cursor-pointer bg-transparent hover:bg-transparent border border-[#536374] text-[#536374]"
               onClick={handleToggleOrders}
@@ -171,7 +171,7 @@ export default function BuyUSDB() {
           </div>
         </div>
         {/* PayWise Account Balance */}
-        <Card className="px-2 py-[10px] rounded-md w-[350px] shadow-[#4E9FFF1F]">
+        <Card className="px-2 py-[10px] rounded-md md:w-[350px] shadow-[#4E9FFF1F]">
           <CardContent className="px-2">
             <div className="flex items-center justify-between space-x-3">
               <div className="flex items-center space-x-3">
