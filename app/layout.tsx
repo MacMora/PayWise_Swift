@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lato, Cabin } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '../components/AuthContext';
+import FingerprintDebug from "../components/debug/FingerprintDebug";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           {children}
+          <FingerprintDebug /> {/* Solo para desarrollo */}
         </AuthProvider>
       </body>
     </html>
