@@ -32,12 +32,13 @@ export default function AuthIntegrationExample() {
   const handleMFAComplete = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!challengeId || !mfaCode) return;
+    if (!challengeId || !mfaCode || !fingerprint) return;
 
     try {
       await completeLogin({
         challengeId,
         code: mfaCode,
+        deviceFingerprint: fingerprint,
       });
       setStep('success');
     } catch (error) {

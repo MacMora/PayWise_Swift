@@ -44,7 +44,7 @@ const Topbar: React.FC<TopbarProps> = ({ onLogout, onMenuClick }) => {
             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
               <span className="text-blue-600 text-sm font-medium">U</span>
             </div>
-            <span className="hidden sm:inline text-gray-700">{user?.name || 'User'}</span>
+            <span className="hidden sm:inline text-gray-700">{user ? `${user.firstName} ${user.lastName}` : 'User'}</span>
             <GoChevronDown className="h-4 w-4 text-gray-500" />
           </button>
           {showMenu && (

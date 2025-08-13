@@ -119,7 +119,7 @@ const Dashboard: React.FC = () => {
         {/* Welcome Header */}
         <div>
           <h1 className="text-2xl font-semibold text-[#2F4050]">
-            Welcome Back, {user.name}
+            Welcome Back, {user.firstName} {user.lastName}
           </h1>
         </div>
 

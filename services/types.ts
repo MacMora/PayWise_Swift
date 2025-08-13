@@ -49,6 +49,7 @@ export interface CompleteMFARequest {
 export interface LoginCompleteRequest {
   challengeId: string;
   code: string;
+  deviceFingerprint: string;
 }
 
 export interface RegistrationStatus {
